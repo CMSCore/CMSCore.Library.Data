@@ -5,31 +5,21 @@
 
     public class FeedItem : EntityBase
     {
-        private string _title;
-
+ 
         public FeedItem()
         {
         }
 
-        public FeedItem(string feedId, string title, string description, bool commentsEnabled)
+        public FeedItem(string feedId, string title)
         {
             FeedId = feedId;
             Title = title;
-            Description = description;
-            CommentsEnabled = commentsEnabled;
+            NormalizedTitle = title.NormalizeToSlug();
         }
 
+        public string Title { get; set; }
         public string NormalizedTitle { get; set; }
 
-        public string Title
-        {
-            get => _title;
-            set
-            {
-                _title = value;
-                NormalizedTitle = _title.NormalizeToSlug();
-            }
-        }
 
         public bool CommentsEnabled { get; set; } = true;
         public string Description { get; set; }

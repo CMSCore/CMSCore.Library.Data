@@ -2,6 +2,6 @@
 {
     public interface IDataConfiguration
     {
-        string ContentConnection { get; set; }
+        string ConnectionString { get; set; }
     }
 }

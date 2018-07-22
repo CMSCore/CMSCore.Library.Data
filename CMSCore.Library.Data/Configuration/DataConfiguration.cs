@@ -9,6 +9,6 @@
             configuration.GetSection("data").Bind(this);
         }
 
-        public string ContentConnection { get; set; }
+        public string ConnectionString { get; set; }
     }
 }

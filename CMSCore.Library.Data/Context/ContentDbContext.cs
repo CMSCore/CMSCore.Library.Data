@@ -1,13 +1,13 @@
 ﻿namespace CMSCore.Library.Data.Context
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Configuration;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.ChangeTracking;
     using Models;
 
-    public class ContentDbContext : DbContext, ICMSCoreDbContext
+    public class ContentDbContext : DbContext, IContentDbContext
     {
         private readonly IDataConfiguration _dataConfiguration;
 
@@ -22,11 +22,15 @@
         public ContentDbContext(IDataConfiguration dataConfiguration)
         {
             _dataConfiguration = dataConfiguration;
+            if (dataConfiguration?.ConnectionString == null)
+            {
+                throw new Exception("appsettings.json must contain a 'data' section with a property 'ConnectionString'.");
+            }
         }
-
+         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_dataConfiguration.ContentConnection);
+             optionsBuilder.UseSqlServer(_dataConfiguration.ConnectionString);
          }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,27 +45,27 @@
         }
 
 
-        IQueryable<TEntity> ICMSCoreDbContext.Set<TEntity>()
+        IQueryable<TEntity> IContentDbContext.Set<TEntity>()
         {
             return Set<TEntity>();
         }
 
-        TEntity ICMSCoreDbContext.Add<TEntity>(TEntity entity)
+        TEntity IContentDbContext.Add<TEntity>(TEntity entity)
         {
             return Add(entity)?.Entity;
         }
 
-        TEntity ICMSCoreDbContext.Update<TEntity>(TEntity entity)
+        TEntity IContentDbContext.Update<TEntity>(TEntity entity)
         {
             return Update(entity)?.Entity;
         }
 
-        void ICMSCoreDbContext.Remove<TEntity>(TEntity entity)
+        void IContentDbContext.Remove<TEntity>(TEntity entity)
         {
             Remove(entity);
         }
 
-        async Task<int> ICMSCoreDbContext.SaveChangesAsync()
+        async Task<int> IContentDbContext.SaveChangesAsync()
         {
             return await SaveChangesAsync();
         }

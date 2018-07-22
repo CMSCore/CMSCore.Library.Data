@@ -7,7 +7,7 @@ namespace CMSCore.Library.Data.Context
     using System.Linq;
     using System.Threading.Tasks;
 
-    public interface ICMSCoreDbContext
+    public interface IContentDbContext
     {
         IQueryable<TEntity> Set<TEntity>() where TEntity : class;
         TEntity Add<TEntity>(TEntity entity) where TEntity : class;

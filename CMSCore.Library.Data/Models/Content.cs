@@ -1,5 +1,6 @@
 ﻿namespace CMSCore.Library.Data.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
@@ -10,23 +11,9 @@
         {
         }
 
-        public Content(string textValue, bool setToActiveVersion = true)
+        public Content(string textValue)
         {
-            var contentVersion = new ContentVersion()
-            {
-                Value = textValue
-            };
-            if (ContentVersions == null)
-            {
-                ContentVersions = new List<ContentVersion>();
-            }
-
-            ContentVersions.Add(contentVersion);
-
-            if (setToActiveVersion)
-            {
-                ActiveContentVersionId = contentVersion.Id;
-            }
+           this.AddContentVersion(textValue);
         }
 
         public string ActiveContentVersionId { get; set; }
@@ -43,13 +30,35 @@
         }
 
         [NotMapped]
-        public string Value
+        public string ActiveContentValue
         {
             get
             {
                 var activeVersion = ContentVersions?.FirstOrDefault(x => x.Id == ActiveContentVersionId);
                 return activeVersion?.Value;
             }
+        }
+
+        public void AddContentVersion(string value)
+        {
+            if (ContentVersions == null)
+            {
+                ContentVersions = new List<ContentVersion>();
+            }
+
+            var versionNumber = (ContentVersions?.Count() + 1).GetValueOrDefault(1);
+
+            var contentVersion = new ContentVersion
+            {
+                Value = value,
+                VersionNumber = versionNumber,
+                Modified = DateTime.Now,
+                Created = Created,
+                ContentId = this.Id
+            };
+
+            ActiveContentVersionId = contentVersion.Id;
+            ContentVersions.Add(contentVersion);
         }
     }
 }

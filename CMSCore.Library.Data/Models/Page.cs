@@ -8,16 +8,28 @@
         {
         }
 
-        public Page(string name, bool feedEnabled)
+        public Page(string name)
         {
             Name = name;
-            NormalizedName = name.NormalizeToSlug();
+        }
+
+        public Page(string name, bool feedEnabled) : this(name)
+        {
             FeedEnabled = feedEnabled;
         }
 
-        public bool FeedEnabled { get; set; } = true;
 
-        public string Name { get; set; }
+        public bool FeedEnabled { get; set; }
+
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                NormalizedName = NormalizedName ?? value.NormalizeToSlug(); }
+        }
 
         public string NormalizedName { get; set; }
 

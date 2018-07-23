@@ -5,7 +5,6 @@
 
     public class Feed : EntityBase
     {
- 
         public Feed()
         {
         }

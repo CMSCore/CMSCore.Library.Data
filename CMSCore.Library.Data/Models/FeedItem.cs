@@ -17,7 +17,19 @@
             NormalizedTitle = title.NormalizeToSlug();
         }
 
-        public string Title { get; set; }
+ 
+
+        private string _title;
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                _title = value;
+                NormalizedTitle = NormalizedTitle ?? value.NormalizeToSlug();
+            }
+        }
+
         public string NormalizedTitle { get; set; }
 
 

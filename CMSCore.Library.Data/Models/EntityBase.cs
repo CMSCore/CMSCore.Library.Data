@@ -13,7 +13,7 @@
         }
 
         [Key]
-        public string Id { get; }
+        public string Id { get; set; }
 
         public bool Hidden { get; set; }
         public bool MarkedToDelete { get; set; }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CMSCore.Library.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class CMSCore_Content_Data : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -4,11 +4,15 @@
 
     public class DataConfiguration : IDataConfiguration
     {
+        public DataConfiguration()
+        {
+            
+        }
         public DataConfiguration(IConfiguration configuration)
         {
             configuration.GetSection("data").Bind(this);
         }
 
-        public string ConnectionString { get; set; }
+        public virtual string ConnectionString { get; set; }
     }
 }

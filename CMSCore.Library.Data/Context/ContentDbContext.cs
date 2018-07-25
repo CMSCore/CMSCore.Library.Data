@@ -1,6 +1,7 @@
 ﻿namespace CMSCore.Library.Data.Context
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Configuration;
@@ -27,11 +28,11 @@
                 throw new Exception("appsettings.json must contain a 'data' section with a property 'ConnectionString'.");
             }
         }
-         
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-             optionsBuilder.UseSqlServer(_dataConfiguration.ConnectionString);
-         }
+            optionsBuilder.UseSqlServer(_dataConfiguration.ConnectionString);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,7 +46,7 @@
         }
 
 
-        IQueryable<TEntity> IContentDbContext.Set<TEntity>()
+        DbSet<TEntity> IContentDbContext.Set<TEntity>()
         {
             return Set<TEntity>();
         }
@@ -58,6 +59,16 @@
         TEntity IContentDbContext.Update<TEntity>(TEntity entity)
         {
             return Update(entity)?.Entity;
+        }
+
+        public void AddRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
+        {
+            base.AddRange(entities);
+        }
+
+        public void UpdateRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : EntityBase
+        {
+            base.UpdateRange(entities);
         }
 
         void IContentDbContext.Remove<TEntity>(TEntity entity)

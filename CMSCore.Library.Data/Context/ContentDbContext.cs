@@ -19,7 +19,8 @@
         public DbSet<Page> Pages { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<User> Users { get; set; }
-
+        public DbSet<Content> Content { get; set; }
+        public DbSet<ContentVersion> ContentVersions { get; set; }
         public ContentDbContext(IDataConfiguration dataConfiguration)
         {
             _dataConfiguration = dataConfiguration;
